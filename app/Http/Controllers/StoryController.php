@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStoryRequest;
+use App\Http\Requests\UpdateStoryRequest;
 use App\Models\Story;
 use Illuminate\Http\Request;
 
@@ -36,24 +37,31 @@ class StoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Story $story)
     {
-        //
+        return response()->json($story);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateStoryRequest $request, Story $story)
     {
-        //
+        $validated = $request->validated();
+
+        $story->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+        ]);
+
+        return response()->json($story);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Story $story)
     {
-        //
+        $story->delete();
     }
 }
