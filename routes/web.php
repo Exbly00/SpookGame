@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ChapterChoiceController;
+use App\Http\Controllers\StoryChapterController;
 use App\Http\Controllers\StoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,6 @@ Route::prefix('api/v1/')->group(function () {
     });
 
     Route::resource('stories', StoryController::class);
+    Route::resource('stories.chapters', StoryChapterController::class);
+    Route::resource('chapters.choices', ChapterChoiceController::class);
 });
