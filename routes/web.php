@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,4 +14,6 @@ Route::prefix('api/v1/')->group(function () {
     Route::delete('/test', function () {
         return response()->json(['message' => 'Deleting']);
     });
+
+    Route::resource('stories', StoryController::class);
 });
