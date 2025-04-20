@@ -1,20 +1,60 @@
 <script setup>
-import { useFetchJson } from "@/composables/useFetchJson";
-import { onMounted, onUnmounted, ref } from "vue";
+import { fetchJson } from "@/utils/fetchJson";
+import { onMounted, onUnmounted, ref, watch } from "vue";
+import { useFetchJson } from "../composables/useFetchJson";
 
-const { data, error, isLoading } = useFetchJson("stories/1/chapters/1");
 let interval;
-const time = ref(0);
+const time = ref(getTimer());
+const currentChapterId = ref(getChapter());
+
+const { data, error, loading } = useFetchJson(
+    `stories/1/chapters/${currentChapterId.value}`
+);
+
+watch(currentChapterId, () => {
+    const { request } = fetchJson(
+        `stories/1/chapters/${currentChapterId.value}`
+    );
+    request.then((res) => {
+        data.value = res;
+    });
+});
 
 onMounted(() => {
     interval = setInterval(() => {
         time.value++;
+
+        localStorage.setItem("story-1-timer", time.value);
     }, 1000);
 });
 
 onUnmounted(() => {
     clearInterval(interval);
 });
+
+function getChapter() {
+    const chapterId = localStorage.getItem(`story-1-current-chapter`);
+
+    if (chapterId) {
+        return parseInt(chapterId);
+    }
+
+    return 1;
+}
+
+function getTimer() {
+    const timer = localStorage.getItem("story-1-timer");
+    if (timer) {
+        return parseInt(timer);
+    }
+    return 0;
+}
+
+function onChoiceClick(choice) {
+    localStorage.setItem(`story-1-current-chapter`, choice.next_chapter_id);
+
+    currentChapterId.value = choice.next_chapter_id;
+}
 
 function formatTime(time) {
     const hours = Math.floor(time / 3600);
@@ -28,11 +68,12 @@ function formatTime(time) {
 
 <template>
     <div
+        v-if="!loading"
         class="page"
-        :style="{ backgroundImage: 'url(/storage/images/' + data?.image + ')' }"
+        :style="{ backgroundImage: 'url(/storage/images/' + data.image + ')' }"
     >
         <div class="header">
-            <h1 class="title">{{ data?.title }}</h1>
+            <h1 class="title">{{ data.title }}</h1>
             <div class="timer">{{ formatTime(time) }}</div>
         </div>
 
@@ -40,12 +81,14 @@ function formatTime(time) {
 
         <div class="menu">
             <p class="text">
-                {{ data?.text }}
+                {{ data.text }}
             </p>
 
             <ol class="choices">
-                <li v-for="choice in data?.choices">
-                    <a href="" class="choice">{{ choice.text }}</a>
+                <li v-for="(choice, i) in data.choices">
+                    <button class="choice" @click="onChoiceClick(choice)">
+                        {{ i + 1 }}. {{ choice.text }}
+                    </button>
                 </li>
             </ol>
         </div>
