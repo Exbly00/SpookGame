@@ -1,39 +1,65 @@
-<script></script>
+<script setup>
+import { useFetchJson } from "@/composables/useFetchJson";
+
+const { data, error, isLoading } = useFetchJson("stories/1/chapters/1");
+</script>
 
 <template>
-    <img src="/storage/images/story_1_chapter_1.jpg" class="bg-image" />
+    <img src="" class="bg-image" />
 
-    <div class="menu">
-        <p class="text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
-            blanditiis delectus laborum, saepe accusantium dolorum
-            necessitatibus quae ut dolor voluptas.
-        </p>
+    <div class="page">
+        <div class="header">
+            <h1 class="title">{{ data?.title }}</h1>
+            <div class="timer">00:00:00</div>
+        </div>
 
-        <ol class="choices">
-            <li>
-                <a href="" class="choice">Lorem ipsum dolor</a>
-            </li>
-            <li>
-                <a href="" class="choice">Lorem ipsum dolor</a>
-            </li>
-            <li>
-                <a href="" class="choice">Lorem ipsum dolor</a>
-            </li>
-            <li>
-                <a href="" class="choice">Lorem ipsum dolor</a>
-            </li>
-        </ol>
+        <div class="spacer"></div>
+
+        <div class="menu">
+            <p class="text">
+                {{ data?.text }}
+            </p>
+
+            <ol class="choices">
+                <li v-for="choice in data?.choices">
+                    <a href="" class="choice">{{ choice.text }}</a>
+                </li>
+            </ol>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.bg-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+.page {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
+    background-image: url(/storage/images/story_1_chapter_1.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    padding: 16px;
+    color: #20ff02;
+    font-family: "Chakra Petch", sans-serif;
+}
+
+.title {
+    margin: 0;
+    font-weight: normal;
+    font-size: 40px;
+}
+
+.timer {
+    font-size: 24px;
+}
+
+.bg-image {
     object-fit: cover;
     z-index: -1;
 }
@@ -44,9 +70,11 @@
     align-items: center;
     gap: 24px;
     padding: 32px;
-    position: fixed;
     bottom: 0;
-    width: 100%;
+}
+
+.spacer {
+    flex: 1 0 auto;
 }
 
 .text {

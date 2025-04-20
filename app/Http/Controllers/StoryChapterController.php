@@ -40,9 +40,9 @@ class StoryChapterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Chapter $chapter)
+    public function show(Story $story, Chapter $chapter)
     {
-        return response()->json($chapter);
+        return response()->json($chapter->load('choices'));
     }
 
     /**
