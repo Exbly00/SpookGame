@@ -1,7 +1,29 @@
 <script setup>
 import { useFetchJson } from "@/composables/useFetchJson";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const { data, error, isLoading } = useFetchJson("stories/1/chapters/1");
+let interval;
+const time = ref(0);
+
+onMounted(() => {
+    interval = setInterval(() => {
+        time.value++;
+    }, 1000);
+});
+
+onUnmounted(() => {
+    clearInterval(interval);
+});
+
+function formatTime(time) {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+}
 </script>
 
 <template>
@@ -11,7 +33,7 @@ const { data, error, isLoading } = useFetchJson("stories/1/chapters/1");
     >
         <div class="header">
             <h1 class="title">{{ data?.title }}</h1>
-            <div class="timer">00:00:00</div>
+            <div class="timer">{{ formatTime(time) }}</div>
         </div>
 
         <div class="spacer"></div>
