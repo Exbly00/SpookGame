@@ -46,50 +46,62 @@ Votre mission : explorer chaque pièce de la maison, résoudre ses mystères, su
         DB::table('choices')->insert([
             [
                 "text" => "Entrer d'un pas assuré.",
+                "next_chapter_id" => 2,
                 "chapter_id" => 1,
             ],
             [
                 "text" => "Faire le tour de la maison.",
+                "next_chapter_id" => 3,
                 "chapter_id" => 1,
             ],
             [
                 "text" => "Filmer une intro pour les réseaux.",
+                "next_chapter_id" => 2,
                 "chapter_id" => 1,
             ],
             [
                 "text" => "Hésiter mais suivre les autres.",
+                "next_chapter_id" => 2,
                 "chapter_id" => 1,
             ],
             [
                 "text" => "Prendre la porte de gauche vers la cuisine.",
+                "next_chapter_id" => 4,
                 "chapter_id" => 2,
             ],
             [
                 "text" => "Prendre la porte centrale vers le salon.",
+                "next_chapter_id" => 5,
                 "chapter_id" => 2,
             ],
             [
                 "text" => "Prendre la porte de droite vers la bibliothèque.",
+                "next_chapter_id" => 6,
                 "chapter_id" => 2,
             ],
             [
                 "text" => "Explorer l'étage (les bruits).",
+                "next_chapter_id" => 8,
                 "chapter_id" => 2,
             ],
             [
                 "text" => "Prendre la clé.",
+                "next_chapter_id" => 2,
                 "chapter_id" => 3,
             ],
             [
                 "text" => "Rester et fouiller plus.",
+                "next_chapter_id" => 10,
                 "chapter_id" => 3,
             ],
             [
                 "text" => "Revenir par le jardin.",
+                "next_chapter_id" => 2,
                 "chapter_id" => 3,
             ],
             [
                 "text" => "Briser une vitre pour sortir.",
+                "next_chapter_id" => 2,
                 "chapter_id" => 3,
             ],
         ]);
