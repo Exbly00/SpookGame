@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class StorySeeder extends Seeder
 {
@@ -23,18 +24,21 @@ Votre mission : explorer chaque pièce de la maison, résoudre ses mystères, su
                 "title" => "L'extérieur",
                 "number" => 1,
                 "text" => "Tu fais partie d'un trio de passionnés de paranormal. Avec tes amis Eliott et Lena, vous avez téléchargé l'application Spook Finder... La porte s'ouvre lentement toute seule dans un gémissement sinistre. Vous êtes maintenant piégés.",
+                "image" => "story_1_chapter_1_outside.jpg",
                 "story_id" => $id,
             ],
             [
                 "title" => "Hall d'entrée",
                 "number" => 2,
                 "text" => "Le hall est gigantesque. La porte a disparu. Un bruit de pas se fait entendre à l'étage supérieur.",
+                "image" => "story_1_chapter_2_kitchen.jpg",
                 "story_id" => $id,
             ],
             [
                 "title" => "Serre de jardin",
                 "number" => 3,
                 "text" => "Une serre envahie de brouillard. Les plantes sont mortes, mais certaines semblent bouger. Une clé verte est suspendue.",
+                "image" => "story_1_chapter_3_library.jpg",
                 "story_id" => $id
             ]
         ]);
@@ -89,5 +93,9 @@ Votre mission : explorer chaque pièce de la maison, résoudre ses mystères, su
                 "chapter_id" => 3,
             ],
         ]);
+
+        Storage::disk('public')->put("images/story_1_chapter_1.jpg", file_get_contents(__DIR__ . "\images\story_1_chapter_1_outside.jpg"));
+        Storage::disk('public')->put("images/story_1_chapter_2.jpg", file_get_contents(__DIR__ . "\images\story_1_chapter_2_kitchen.jpg"));
+        Storage::disk('public')->put("images/story_1_chapter_3.jpg", file_get_contents(__DIR__ . "\images\story_1_chapter_3_library.jpg"));
     }
 }

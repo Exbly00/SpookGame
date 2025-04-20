@@ -2,14 +2,13 @@
 import { ref } from "vue";
 import TheHeader from "@/components/TheHeader.vue";
 import PageExample from "@/pages/PageExample.vue";
-const n = ref(1);
+import PageChapter from "@/pages/PageChapter.vue";
 </script>
 
 <template>
     <div>
-        <TheHeader />
         <main>
-            <PageExample />
+            <PageChapter />
         </main>
     </div>
 </template>

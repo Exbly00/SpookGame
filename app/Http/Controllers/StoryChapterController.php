@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateStoryChapterRequest;
 use App\Models\Chapter;
 use App\Models\Story;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StoryChapterController extends Controller
 {
@@ -25,9 +26,12 @@ class StoryChapterController extends Controller
     {
         $validated = $request->validated();
 
+        $file =  Storage::disk('public')->putFile('images', $validated['image']);
+
         $chapter = $story->chapters()->create([
             'title' => $validated['title'],
             'number' => $validated['number'],
+            'image' => $file
         ]);
 
         return response()->json($chapter);

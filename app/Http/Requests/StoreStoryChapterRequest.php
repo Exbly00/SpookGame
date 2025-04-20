@@ -24,6 +24,7 @@ class StoreStoryChapterRequest extends FormRequest
         return [
             'title' => 'required|string',
             'number' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ];
     }
 }
