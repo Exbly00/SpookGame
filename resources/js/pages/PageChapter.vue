@@ -5,9 +5,10 @@ const { data, error, isLoading } = useFetchJson("stories/1/chapters/1");
 </script>
 
 <template>
-    <img src="" class="bg-image" />
-
-    <div class="page">
+    <div
+        class="page"
+        :style="{ backgroundImage: 'url(/storage/images/' + data?.image + ')' }"
+    >
         <div class="header">
             <h1 class="title">{{ data?.title }}</h1>
             <div class="timer">00:00:00</div>
@@ -34,7 +35,6 @@ const { data, error, isLoading } = useFetchJson("stories/1/chapters/1");
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-image: url(/storage/images/story_1_chapter_1.jpg);
     background-size: cover;
     background-position: center;
 }
@@ -57,11 +57,6 @@ const { data, error, isLoading } = useFetchJson("stories/1/chapters/1");
 
 .timer {
     font-size: 24px;
-}
-
-.bg-image {
-    object-fit: cover;
-    z-index: -1;
 }
 
 .menu {
