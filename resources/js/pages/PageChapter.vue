@@ -105,7 +105,7 @@ function onRestartClick() {
                     </button>
                 </li>
                 <li v-if="data.choices.length === 0">
-                    <a href="/" class="choice">Quitter</a>
+                    <a href="/#" class="choice">Quitter</a>
                 </li>
             </ol>
         </div>
@@ -183,5 +183,16 @@ function onRestartClick() {
 
 .choice:hover {
     transform: scale(1.1);
+}
+
+@media screen and (max-width: 900px) {
+    .choices {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .choice {
+        flex: 1 0 100%;
+    }
 }
 </style>
