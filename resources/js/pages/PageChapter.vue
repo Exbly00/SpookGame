@@ -22,7 +22,10 @@ watch(currentChapterId, () => {
 
 onMounted(() => {
     interval = setInterval(() => {
-        time.value++;
+        // On incrémente le compteur si on est pas dans un chapitre de fin.
+        if (data.value.choices.length != 0) {
+            time.value++;
+        }
 
         localStorage.setItem("story-1-timer", time.value);
     }, 1000);
@@ -64,6 +67,12 @@ function formatTime(time) {
         .toString()
         .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 }
+
+function onRestartClick() {
+    localStorage.setItem(`story-1-current-chapter`, 1);
+    currentChapterId.value = 1;
+    time.value = 0;
+}
 </script>
 
 <template>
@@ -89,6 +98,14 @@ function formatTime(time) {
                     <button class="choice" @click="onChoiceClick(choice)">
                         {{ i + 1 }}. {{ choice.text }}
                     </button>
+                </li>
+                <li v-if="data.choices.length === 0">
+                    <button class="choice" @click="onRestartClick">
+                        Recommencer
+                    </button>
+                </li>
+                <li v-if="data.choices.length === 0">
+                    <a href="/" class="choice">Quitter</a>
                 </li>
             </ol>
         </div>
