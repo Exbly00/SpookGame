@@ -1,7 +1,29 @@
 <script setup>
+import { ref } from "vue";
 import { useFetchJson } from "@/composables/useFetchJson";
+import { fetchJson } from "@/utils/fetchJson";
 
 const { data, error, isLoading } = useFetchJson("stories");
+
+const createStoryOpen = ref(false);
+const newStoryTitle = ref("");
+const newStoryDescription = ref("");
+
+function onCreateClick() {
+    const { request } = fetchJson({
+        url: "stories",
+        method: "POST",
+        data: {
+            title: newStoryTitle.value,
+            description: newStoryDescription.value,
+        },
+    });
+
+    request.then((res) => {
+        console.log(res);
+        window.location.hash = `#editStory-${res.id}`;
+    });
+}
 </script>
 
 <template>
@@ -33,6 +55,10 @@ const { data, error, isLoading } = useFetchJson("stories");
 
         <p class="paragraph">Et que le cauchemar commence. 💀</p>
 
+        <button class="add-button" @click="createStoryOpen = true">
+            Créer une nouvelle aventure
+        </button>
+
         <div class="stories">
             <a href="#story-1" v-for="story in data" class="card">
                 <div>{{ story.title }}</div>
@@ -43,6 +69,40 @@ const { data, error, isLoading } = useFetchJson("stories");
                     {{ story.description }}
                 </p>
             </a>
+        </div>
+
+        <div v-if="createStoryOpen" class="popup">
+            <div class="popup-content">
+                <div class="popup-title">
+                    <h3>Créer une nouvelle aventure</h3>
+                    <button
+                        class="popup-close"
+                        @click="createStoryOpen = false"
+                    >
+                        x
+                    </button>
+                </div>
+
+                <label for="title">Titre</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    v-model="newStoryTitle"
+                />
+
+                <label for="description">Description</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    v-model="newStoryDescription"
+                ></textarea>
+
+                <div class="popup-actions">
+                    <button @click="createStoryOpen = false">Annuler</button>
+                    <button @click="onCreateClick">Créer</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -78,6 +138,78 @@ const { data, error, isLoading } = useFetchJson("stories");
     width: 100%;
     max-width: 800px;
     margin: 8px 0;
+}
+
+.add-button {
+    background-color: #fff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease-in-out;
+}
+
+.add-button:hover {
+    transform: scale(1.1);
+}
+
+.popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 12px;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    min-width: 600px;
+}
+
+.popup-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    font-weight: bold;
+}
+
+.popup-close {
+    line-height: 1rem;
+    width: 24px;
+    height: 24px;
+    font-weight: bold;
+    border: 1px solid #666;
+    border-radius: 50%;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: end;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.popup-actions button {
+    border: 1px solid #666;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+
+input,
+textarea {
+    border: 1px solid #666;
+    border-radius: 8px;
+    padding: 6px 12px;
 }
 
 .stories {

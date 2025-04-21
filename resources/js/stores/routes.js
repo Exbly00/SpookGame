@@ -1,6 +1,7 @@
 import { computed, ref, shallowRef } from "vue";
 import PageChapter from "../pages/PageChapter.vue";
 import PageStories from "../pages/PageStories.vue";
+import PageEditStory from "../pages/PageEditStory.vue";
 
 export const routes = [
     {
@@ -12,6 +13,11 @@ export const routes = [
         anchor: "stories",
         label: "Stories",
         page: PageStories,
+    },
+    {
+        anchor: "editStory",
+        label: "EditStory",
+        page: PageEditStory,
     },
 ];
 

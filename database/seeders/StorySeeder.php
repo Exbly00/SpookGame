@@ -23,7 +23,7 @@ Votre mission : explorer chaque pièce de la maison, résoudre ses mystères, su
             [
                 "title" => "Extérieur",
                 "number" => 1,
-                "text" => "Tu fais partie d'un trio de passionnés de paranormal. Avec tes amis **Eliott** et **Lena**, vous avez téléchargé l'application **Spook Finder**, qui promet de localiser les maisons hantées les plus intenses. Après des semaines de planification, vous vous retrouvez enfin devant **Whispering Hallow**, une bâtisse abandonnée au passé trouble.
+                "text" => "Tu fais partie d'un trio de passionnés de paranormal. Avec tes amis Eliott et Lena, vous avez téléchargé l'application Spook Finder, qui promet de localiser les maisons hantées les plus intenses. Après des semaines de planification, vous vous retrouvez enfin devant Whispering Hallow, une bâtisse abandonnée au passé trouble.
                 Eliott, smartphone en main, déclare en souriant :
                 « Spook Finder dit que c'est niveau 5... y'a pas plus haut. C'est parfait pour notre vidéo ! »
                 Lena, plus prudente, regarde les fenêtres noires de la maison :
