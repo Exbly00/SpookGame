@@ -21,9 +21,13 @@ class StoryController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $stories = Story::all();
+        if ($request->user()) {
+            $stories = Story::all();
+        } else {
+            $stories = Story::where('is_visible', true)->get();
+        }
 
         return response()->json($stories);
     }
