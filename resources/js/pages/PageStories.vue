@@ -78,7 +78,7 @@ async function updateStory(story) {
             >
                 <div>{{ story.title }}</div>
 
-                <img src="/storage/images/story_1_chapter_1.jpg" />
+                <img :src="`/storage/images/${story.first_chapter.image}`" />
 
                 <p>
                     {{ story.description }}
