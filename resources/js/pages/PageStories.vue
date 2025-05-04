@@ -1,5 +1,6 @@
 <script setup>
 import { useFetchJson } from "@/composables/useFetchJson";
+import { fetchJson } from "@/utils/fetchJson";
 import { ref } from "vue";
 
 const { data, error, loading } = useFetchJson("stories");
@@ -8,6 +9,24 @@ const authUserRef = ref(authUser);
 const csrfToken = ref(
     document.head.querySelector('meta[name="csrf-token"]').content
 );
+
+async function updateStory(story) {
+    const { request } = fetchJson({
+        url: `stories/${story.id}`,
+        method: "PUT",
+        data: {
+            title: story.title,
+            description: story.description,
+            is_visible: !story.is_visible,
+        },
+    });
+    await request;
+
+    const { request: storiesRequest } = fetchJson("stories");
+    await storiesRequest.then((res) => {
+        data.value = res;
+    });
+}
 </script>
 
 <template>
@@ -51,7 +70,12 @@ const csrfToken = ref(
         <p class="paragraph">Et que le cauchemar commence. 💀</p>
 
         <div class="stories">
-            <a href="#story-1" v-for="story in data" class="card">
+            <a
+                :href="`#story-${story.id}`"
+                v-for="story in data"
+                class="card"
+                :class="{ 'card-invisible': !story.is_visible }"
+            >
                 <div>{{ story.title }}</div>
 
                 <img src="/storage/images/story_1_chapter_1.jpg" />
@@ -59,6 +83,14 @@ const csrfToken = ref(
                 <p>
                     {{ story.description }}
                 </p>
+
+                <button
+                    class="button"
+                    @click.prevent="updateStory(story)"
+                    v-if="authUserRef !== null"
+                >
+                    {{ story.is_visible ? "Masquer" : "Afficher" }}
+                </button>
             </a>
         </div>
     </div>
@@ -105,12 +137,12 @@ const csrfToken = ref(
     margin: 8px 0;
 }
 
-.add-button {
-    background-color: #fff;
+.button {
+    color: #fff;
+    background-color: #000;
     padding: 12px 24px;
     border-radius: 12px;
     text-decoration: none;
-    color: inherit;
     transition: transform 0.15s ease-in-out;
 }
 
@@ -127,16 +159,30 @@ const csrfToken = ref(
 }
 
 .card {
+    display: flex;
+    flex-flow: column nowrap;
     background-color: #fff;
     padding: 20px;
     border-radius: 12px;
     max-width: 400px;
 }
 
+.card-invisible {
+    background-color: #ccc;
+}
+
 .card div {
     text-align: center;
     font-family: "Metal Mania";
     font-size: 24px;
+}
+
+.card p {
+    margin-bottom: 18px;
+}
+
+.card button {
+    align-self: flex-end;
 }
 
 .card img {

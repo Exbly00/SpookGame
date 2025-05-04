@@ -11,7 +11,7 @@ class UpdateStoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,7 @@ class UpdateStoryRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
+            'is_visible' => 'required|boolean',
         ];
     }
 }

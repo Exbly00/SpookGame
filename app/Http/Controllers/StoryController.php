@@ -61,6 +61,7 @@ class StoryController extends Controller implements HasMiddleware
         $story->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
+            'is_visible' => $validated['is_visible'],
         ]);
 
         return response()->json($story);

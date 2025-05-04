@@ -10,6 +10,7 @@ class Story extends Model
     protected $fillable = [
         'title',
         'description',
+        'is_visible',
     ];
 
     public function chapters(): HasMany
