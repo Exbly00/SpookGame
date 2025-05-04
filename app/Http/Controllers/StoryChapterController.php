@@ -8,9 +8,19 @@ use App\Models\Chapter;
 use App\Models\Story;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class StoryChapterController extends Controller
+class StoryChapterController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth', ['except' => ['index', 'show']]),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

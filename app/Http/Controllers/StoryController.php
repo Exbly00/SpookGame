@@ -6,9 +6,18 @@ use App\Http\Requests\StoreStoryRequest;
 use App\Http\Requests\UpdateStoryRequest;
 use App\Models\Story;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class StoryController extends Controller
+class StoryController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth', ['except' => ['index', 'show']]),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
