@@ -4,21 +4,29 @@ import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useFetchJson } from "../composables/useFetchJson";
 
 let interval;
+const storyId = ref(Number(window.location.hash.split("-")[1]));
 const time = ref(getTimer());
 const currentChapterId = ref(getChapter());
 
 const { data, error, loading } = useFetchJson(
-    `stories/1/chapters/${currentChapterId.value}`
+    `stories/${storyId.value}/chapters/${currentChapterId.value}`
 );
 
-watch(currentChapterId, () => {
+watch([currentChapterId, storyId], () => {
     const { request } = fetchJson(
-        `stories/1/chapters/${currentChapterId.value}`
+        `stories/${storyId.value}/chapters/${currentChapterId.value}`
     );
     request.then((res) => {
         data.value = res;
     });
 });
+
+function onHashChange(e) {
+    storyId.value = e.newURL.split("-")[1];
+
+    // On revient au bon chapitre si on change d'histoire en utilisant le hash
+    currentChapterId.value = getChapter();
+}
 
 onMounted(() => {
     interval = setInterval(() => {
@@ -27,16 +35,22 @@ onMounted(() => {
             time.value++;
         }
 
-        localStorage.setItem("story-1-timer", time.value);
+        localStorage.setItem(`story-${storyId.value}-timer`, time.value);
     }, 1000);
+
+    window.addEventListener("hashchange", onHashChange);
 });
 
 onUnmounted(() => {
     clearInterval(interval);
+
+    window.removeEventListener("hashchange", onHashChange);
 });
 
 function getChapter() {
-    const chapterId = localStorage.getItem(`story-1-current-chapter`);
+    const chapterId = localStorage.getItem(
+        `story-${storyId.value}-current-chapter`
+    );
 
     if (chapterId) {
         return parseInt(chapterId);
@@ -46,7 +60,7 @@ function getChapter() {
 }
 
 function getTimer() {
-    const timer = localStorage.getItem("story-1-timer");
+    const timer = localStorage.getItem(`story-${storyId.value}-timer`);
     if (timer) {
         return parseInt(timer);
     }
@@ -54,7 +68,10 @@ function getTimer() {
 }
 
 function onChoiceClick(choice) {
-    localStorage.setItem(`story-1-current-chapter`, choice.next_chapter_id);
+    localStorage.setItem(
+        `story-${storyId.value}-current-chapter`,
+        choice.next_chapter_id
+    );
 
     currentChapterId.value = choice.next_chapter_id;
 }
@@ -69,7 +86,7 @@ function formatTime(time) {
 }
 
 function onRestartClick() {
-    localStorage.setItem(`story-1-current-chapter`, 1);
+    localStorage.setItem(`story-${storyId.value}-current-chapter`, 1);
     currentChapterId.value = 1;
     time.value = 0;
 }
