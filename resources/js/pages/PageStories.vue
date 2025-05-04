@@ -1,14 +1,26 @@
 <script setup>
 import { useFetchJson } from "@/composables/useFetchJson";
+import { ref } from "vue";
 
 const { data, error, loading } = useFetchJson("stories");
+
+const authUserRef = ref(authUser);
+const csrfToken = ref(
+    document.head.querySelector('meta[name="csrf-token"]').content
+);
 </script>
 
 <template>
     <div class="page">
         <div class="login-menu">
-            <a href="/login">Se connecter</a>
-            <a href="/register">Créer un compte</a>
+            <slot v-if="authUserRef === null">
+                <a href="/login">Se connecter</a>
+                <a href="/register">Créer un compte</a>
+            </slot>
+            <form v-else action="/logout" method="POST">
+                <input type="hidden" name="_token" :value="csrfToken" />
+                <button type="submit">Se déconnecter</button>
+            </form>
         </div>
 
         <h1 class="title">SpookGame</h1>
