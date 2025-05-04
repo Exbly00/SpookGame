@@ -2,6 +2,10 @@ import { createApp } from "vue";
 import { setDefaultHeaders, setDefaultBaseUrl } from "@/utils/fetchJson.js";
 import App from "./App.vue";
 
+// Laravel Breeze
+import "./bootstrap";
+import Alpine from "alpinejs";
+
 const csrfToken =
     document
         .querySelector('meta[name="csrf-token"]')
@@ -18,3 +22,7 @@ setDefaultBaseUrl(urlApi);
 
 const myApp = createApp(App);
 myApp.mount("#app");
+
+// Laravel Breeze
+window.Alpine = Alpine;
+Alpine.start();

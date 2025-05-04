@@ -6,6 +6,11 @@ const { data, error, loading } = useFetchJson("stories");
 
 <template>
     <div class="page">
+        <div class="login-menu">
+            <a href="/login">Se connecter</a>
+            <a href="/register">Créer un compte</a>
+        </div>
+
         <h1 class="title">SpookGame</h1>
 
         <h2 class="subtitle">Bienvenue dans les Profondeurs de l'Horreur</h2>
@@ -57,6 +62,14 @@ const { data, error, loading } = useFetchJson("stories");
     background-size: cover;
     min-height: 100vh;
     padding: 20px;
+}
+
+.login-menu {
+    position: fixed;
+    right: 20px;
+    display: flex;
+    gap: 12px;
+    color: #fff;
 }
 
 .title {
