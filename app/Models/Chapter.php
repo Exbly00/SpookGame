@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Chapter extends Model
 {
+    // Attributs du chapitre
     protected $fillable = [
         'story_id',
         'title',
@@ -15,11 +16,13 @@ class Chapter extends Model
         'number',
     ];
 
+    // Relation avec l'hitoire qui contient le chapitre
     public function story(): BelongsTo
     {
         return $this->belongsTo(Story::class);
     }
 
+    // Relation avec les choix du chapitre
     public function choices(): HasMany
     {
         return $this->hasMany(Choice::class);

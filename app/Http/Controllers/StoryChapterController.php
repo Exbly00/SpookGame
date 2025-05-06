@@ -13,6 +13,7 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class StoryChapterController extends Controller implements HasMiddleware
 {
+    //Seulement les utilisateurs authentifiés peuvent accéder aux actions de ce controller
 
     public static function middleware(): array
     {

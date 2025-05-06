@@ -3,15 +3,18 @@ import { fetchJson } from "@/utils/fetchJson";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useFetchJson } from "../composables/useFetchJson";
 
+//Variables
 let interval;
 const storyId = ref(Number(window.location.hash.split("-")[1]));
 const time = ref(getTimer());
 const currentChapterId = ref(getChapter());
 
+//Chargement des données
 const { data, error, loading } = useFetchJson(
     `stories/${storyId.value}/chapters/${currentChapterId.value}`
 );
 
+//Gestion du changement de chapitre
 watch([currentChapterId, storyId], () => {
     const { request } = fetchJson(
         `stories/${storyId.value}/chapters/${currentChapterId.value}`
@@ -21,6 +24,7 @@ watch([currentChapterId, storyId], () => {
     });
 });
 
+//Gestion du changement d'histoire
 function onHashChange(e) {
     storyId.value = e.newURL.split("-")[1];
 
@@ -28,6 +32,7 @@ function onHashChange(e) {
     currentChapterId.value = getChapter();
 }
 
+//Gestion du timer
 onMounted(() => {
     interval = setInterval(() => {
         // On incrémente le compteur si on est pas dans un chapitre de fin.
@@ -41,12 +46,14 @@ onMounted(() => {
     window.addEventListener("hashchange", onHashChange);
 });
 
+//On enleve l'interval
 onUnmounted(() => {
     clearInterval(interval);
 
     window.removeEventListener("hashchange", onHashChange);
 });
 
+//La fonction permet de récupérer le chapitre et le temps enregistré dans le localStorage
 function getChapter() {
     const chapterId = localStorage.getItem(
         `story-${storyId.value}-current-chapter`
@@ -59,6 +66,7 @@ function getChapter() {
     return 1;
 }
 
+//La fonction permet de récupérer le temps enregistré dans le localStorage
 function getTimer() {
     const timer = localStorage.getItem(`story-${storyId.value}-timer`);
     if (timer) {
@@ -67,6 +75,7 @@ function getTimer() {
     return 0;
 }
 
+//Gestion des choix
 function onChoiceClick(choice) {
     localStorage.setItem(
         `story-${storyId.value}-current-chapter`,
@@ -76,6 +85,7 @@ function onChoiceClick(choice) {
     currentChapterId.value = choice.next_chapter_id;
 }
 
+//Fonction permettant de formater le temps
 function formatTime(time) {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
@@ -85,6 +95,7 @@ function formatTime(time) {
         .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 }
 
+//Fonction permettant de recommencer
 function onRestartClick() {
     localStorage.setItem(`story-${storyId.value}-current-chapter`, 1);
     currentChapterId.value = 1;
@@ -93,11 +104,13 @@ function onRestartClick() {
 </script>
 
 <template>
+    <!-- Si les données ne sont pas en cours de chargement -->
     <div
         v-if="!loading"
         class="page"
         :style="{ backgroundImage: 'url(/storage/images/' + data.image + ')' }"
     >
+        <!-- En-tête de la page-->
         <div class="header">
             <h1 class="title">{{ data.title }}</h1>
             <div class="timer">{{ formatTime(time) }}</div>
@@ -110,6 +123,7 @@ function onRestartClick() {
                 {{ data.text }}
             </p>
 
+            <!-- Liste des choix -->
             <ol class="choices">
                 <li v-for="(choice, i) in data.choices">
                     <button class="choice" @click="onChoiceClick(choice)">

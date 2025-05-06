@@ -3,13 +3,16 @@ import { useFetchJson } from "@/composables/useFetchJson";
 import { fetchJson } from "@/utils/fetchJson";
 import { ref } from "vue";
 
+//Chargement des données
 const { data, error, loading } = useFetchJson("stories");
 
+//Gestion de l'utilisateur connecté
 const authUserRef = ref(authUser);
 const csrfToken = ref(
     document.head.querySelector('meta[name="csrf-token"]').content
 );
 
+//Fonction qui permet d'afficher ou masquer une histoire
 async function updateStory(story) {
     const { request } = fetchJson({
         url: `stories/${story.id}`,
@@ -22,6 +25,7 @@ async function updateStory(story) {
     });
     await request;
 
+    //Rafraichissement des données
     const { request: storiesRequest } = fetchJson("stories");
     await storiesRequest.then((res) => {
         data.value = res;
@@ -30,6 +34,7 @@ async function updateStory(story) {
 </script>
 
 <template>
+    <!-- Menu de connexion et déconnexion -->
     <div class="page">
         <div class="login-menu">
             <slot v-if="authUserRef === null">
@@ -41,7 +46,7 @@ async function updateStory(story) {
                 <button type="submit">Se déconnecter</button>
             </form>
         </div>
-
+        <!-- Texte de la page d'accueil -->
         <h1 class="title">SpookGame</h1>
 
         <h2 class="subtitle">Bienvenue dans les Profondeurs de l'Horreur</h2>
@@ -69,6 +74,7 @@ async function updateStory(story) {
 
         <p class="paragraph">Et que le cauchemar commence. 💀</p>
 
+        <!-- Affichage des histoires -->
         <div class="stories">
             <a
                 :href="`#story-${story.id}`"

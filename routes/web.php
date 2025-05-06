@@ -6,6 +6,7 @@ use App\Http\Controllers\StoryChapterController;
 use App\Http\Controllers\StoryController;
 use Illuminate\Support\Facades\Route;
 
+//Route de la page d'accueil
 Route::get('/', function () {
     return view('test');
 })->name('home');
@@ -14,12 +15,14 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+//Route accessible que si l'utilisateur est connecté
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//Groupe d'API versionnée
 Route::prefix('api/v1/')->group(function () {
     Route::get('/test', function () {
         return response()->json(['message' => 'Hello, World from api!']);

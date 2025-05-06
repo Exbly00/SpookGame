@@ -8,7 +8,9 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
 class ChapterChoiceController extends Controller implements HasMiddleware
+
 {
+    //Seulement les utilisateurs authentifiés peuvent accéder aux actions de ce controller
     public static function middleware(): array
     {
         return [
@@ -17,7 +19,7 @@ class ChapterChoiceController extends Controller implements HasMiddleware
     }
 
     /**
-     * Display a listing of the resource.
+     * Affiche la liste des choix disponibles pour un chapitre spécifique.
      */
     public function index(Chapter $chapter)
     {
@@ -25,7 +27,7 @@ class ChapterChoiceController extends Controller implements HasMiddleware
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Enregistre un nouveau choix dans la base de données.
      */
     public function store(Request $request)
     {
@@ -33,7 +35,7 @@ class ChapterChoiceController extends Controller implements HasMiddleware
     }
 
     /**
-     * Display the specified resource.
+     * Affiche les détails d'un choix spécifique.
      */
     public function show(string $id)
     {
@@ -41,7 +43,7 @@ class ChapterChoiceController extends Controller implements HasMiddleware
     }
 
     /**
-     * Update the specified resource in storage.
+     * Met à jour un choix existant dans la base de données.
      */
     public function update(Request $request, string $id)
     {
@@ -49,7 +51,7 @@ class ChapterChoiceController extends Controller implements HasMiddleware
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime un choix de la base de données.
      */
     public function destroy(string $id)
     {

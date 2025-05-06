@@ -18,6 +18,8 @@ import { fetchJson } from "@/utils/fetchJson";
  * @property {Ref} loading - Indicates loading state
  * @property {Function} abort - Function to abort the request
  */
+
+// La fonction permet de fetcher des données JSON et de les rendre accessibles via des refs et une fonction d'annulation
 export function useFetchJson(options) {
     const data = ref(null);
     const error = ref(null);
