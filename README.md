@@ -43,27 +43,28 @@ Commencez par **cloner ce dépôt** sur votre machine, puis placez-vous dans le 
 composer install
 ```
 
-Copiez le fichier d’environnement et générez la clé de l’application :
+#### 2. Copiez le fichier d’environnement et générez la clé de l’application :
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-Lancez les migrations avec les données de test :
+#### 3. Lancez les migrations avec les données de test :
 ```bash
 php artisan migrate --seed
 ```
 
-Démarrez le serveur Laravel :
+#### 4. Démarrez le serveur Laravel :
 ```bash
 php artisan serve
 ```
 
-Dans un **deuxième terminal**, installez les dépendances front-end et lancez le serveur de développement :
+#### 5. Dans un **deuxième terminal**, installez les dépendances front-end et lancez le serveur de développement :
 ```bash
 npm install
 npm run build
 npm run dev
 ```
 
-L’application sera ensuite accessible depuis votre navigateur à l’adresse suivante : **http://localhost:8000**
+### Accéder à l'application
+Une fois les serveurs lancés, l’application sera accessible depuis votre navigateur à l’adresse : **http://localhost:8000**
